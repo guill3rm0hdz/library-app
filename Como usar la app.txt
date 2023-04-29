@@ -1,0 +1,3 @@
+Hola para poder usar esta app web solo descarga la carpeta con git clone desde tu terminal de tu sistema operativo y la carpeta del proyecto agrégala en htdocs de tu servidor local.
+
+Para las bases de datos en mysql importa en en phpmyAdmin el archivo library.sql
