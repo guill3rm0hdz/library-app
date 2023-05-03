@@ -96,7 +96,7 @@ $(document).ready(function() {
         elementValido = false;
       }
     });
-    validarCategory(element);
+    elementValido = validarCategory();
     return elementValido;
   }
 
