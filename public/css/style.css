@@ -100,13 +100,13 @@ body {
       display: flex;
       flex-wrap: wrap;
       align-items: stretch;
-      height: 100vh;
+      height: auto;
     }
   
     .sidebar {
       flex: 0 0 auto;
       width: 250px;
-      height: 100%;
+      height: auto;
       background-color: #dee1e6;
     }
   

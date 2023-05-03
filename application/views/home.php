@@ -23,11 +23,11 @@
 			<sidebar class="sidebar">
 				<h2>Menu</h2>
 				<ul class="menu">
-					<li><?php echo anchor('home/cargar_seccion/libros', 'Libros', array('class' => '')); ?>
+					<li><?php echo anchor('home/section_load/books', 'Books', array('class' => '')); ?>
 					</li>
-					<li><?php echo anchor('home/cargar_seccion/categorias', 'Categorias', array('class' => '')); ?>
+					<li><?php echo anchor('home/section_load/categories', 'categories', array('class' => '')); ?>
 					</li>
-					<li><?php echo anchor('home/cargar_seccion/usuarios', 'Usuarios', array('class' => '')); ?>
+					<li><?php echo anchor('home/section_load/users', 'Users', array('class' => '')); ?>
 					</li>
 				</ul>
 			</sidebar>

@@ -37,7 +37,6 @@ $(document).ready(function() {
     let form = document.getElementById("formulario");
     let element = $('.input, .email, .select, .date');
     let validar = validarFormulario(element);
-
     if (validar === false) {
       return false;
     }else if (validar === true) {
@@ -46,8 +45,29 @@ $(document).ready(function() {
   });
 
 
+  var selectedOptions = [];
+  // Inicializar el widget de autocompletar
+  $("#autocomplete-category").autocomplete({
+    source: ["Opción 1", "Opción 2", "Opción 3", "Opción 4", "Opción 5"],
+    select: function(event, ui) {
+      var optionValue = ui.item.value;
+      // Agregar la opción seleccionada al contenedor
+      selectedOptions.push(optionValue);
+      updateSelectedOptions($(this));
+      // Limpiar el campo de entrada de autocompletar después de seleccionar una opción
+      $(this).val("");
+      return false;
+    }
+  });
 
 
+  $('#autocompleteUser').autocomplete({
+    source: ["Opción 1", "Opción 2", "Opción 3", "Opción 4", "Opción 5"],
+    select: function(event, ui) {
+      // Evitar el comportamiento por defecto del evento select
+      return false;
+    }
+  });    
 
   //Funciones para validar los input del formulario
   function validarInput(element){
@@ -68,9 +88,7 @@ $(document).ready(function() {
   }
 
 
-
-
-
+  //Funcion para validar la existencia de categirias en el libro
   function validarCategory(){
     let element = $("#selected-options");
     elementValido = true;
@@ -83,8 +101,6 @@ $(document).ready(function() {
     return elementValido;
   };
 
-
-
   
   //Funcion para validar el formulario completo
   function validarFormulario(element){
@@ -96,27 +112,12 @@ $(document).ready(function() {
         elementValido = false;
       }
     });
-    elementValido = validarCategory();
+
+    if($("#autocomplete-category").length){elementValido = validarCategory();}
     return elementValido;
   }
-
-
-
-    var selectedOptions = [];
-    // Inicializar el widget de autocompletar
-    $("#autocomplete-category").autocomplete({
-      source: ["Opción 1", "Opción 2", "Opción 3", "Opción 4", "Opción 5"],
-      select: function(event, ui) {
-        var optionValue = ui.item.value;
-        // Agregar la opción seleccionada al contenedor
-        selectedOptions.push(optionValue);
-        updateSelectedOptions($(this));
-        // Limpiar el campo de entrada de autocompletar después de seleccionar una opción
-        $(this).val("");
-        return false;
-      }
-    });
   
+
     // Actualizar el contenedor de opciones seleccionadas
     function updateSelectedOptions(element) {
       let elementOption = $("#selected-options");
@@ -140,13 +141,5 @@ $(document).ready(function() {
       validarCategory();
     }
 
-
-    $('#autocompleteUser').autocomplete({
-      source: ["Opción 1", "Opción 2", "Opción 3", "Opción 4", "Opción 5"],
-      select: function(event, ui) {
-        // Evitar el comportamiento por defecto del evento select
-        return false;
-      }
-    });    
   });
   
