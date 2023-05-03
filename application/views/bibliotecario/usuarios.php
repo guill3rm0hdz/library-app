@@ -5,7 +5,7 @@
 					<header>
 						<h2><?= $title?></h2>
 					</header>
-					<form id="formulario" action="<?php echo base_url('home/add_user_bibliotecario'); ?>"  method="post">
+					<form id="formulario" method="post" action="<?php echo base_url('home/add_user_bibliotecario'); ?>" >
 						<div class="row mb-3">
 							<label for="inputUser" class="col-sm-2 col-form-label">Nombre Usuario</label>
 							<div class="col-sm-10">
@@ -18,7 +18,7 @@
 						<div class="row mb-3">
 							<label for="inputEmail" class="col-sm-2 col-form-label">E-mail</label>
 							<div class="col-sm-10">
-								<input type="email" class="form-control input" name="emailUser"/>
+								<input type="email" class="form-control email" name="emailUser"/>
 								<div class="invalid-feedback">
 									El email no es uno válido.
 								</div>								

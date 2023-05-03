@@ -18,7 +18,7 @@
 						<div class="row mb-3">
 							<label for="inputAutor" class="col-sm-2 col-form-label">Autor</label>
 							<div class="col-sm-10">
-								<input type="email" class="form-control input" name="autor"/>
+								<input type="text" class="form-control input" name="autor"/>
 								<div class="invalid-feedback">
 									El input solo puede contener letras.
 								</div>								
@@ -27,25 +27,30 @@
 						<div class="row mb-3">
 							<label for="inputCategoria" class="col-sm-2 col-form-label">Categoria</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="categoria"/>
+								<label for="fruits" >Elige una categoria:</label>
+								<!-- Input para buscar opciones -->
+								<input type="text" id="autocomplete-category" class="form-control">
+								<!-- Contenedor donde se mostrarán las opciones seleccionadas -->
+								<div id="selected-options"></div>
+
 								<div class="invalid-feedback">
-									El input solo puede contener letras.
+									Selecciona una categoria.
 								</div>								
 							</div>
 						</div>		
 						<div class="row mb-3">
 							<label for="inputFechaPublicacion" class="col-sm-2 col-form-label">Fecha Publicacion</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="fechaPublicacion"/>
+								<input type="date" class="form-control date" name="fechaPublicacion">								
 								<div class="invalid-feedback">
-									El input solo puede contener letras.
+									Selecciona una fecha.
 								</div>								
 							</div>
 						</div>			
 						<div class="row mb-3">
 							<label for="inputFechaPublicacion" class="col-sm-2 col-form-label">Usuario</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="usuario"/>
+								<input type="text" class="form-control" id="autocompleteUser" name="usuario"/>
 								<div class="invalid-feedback">
 									El input solo puede contener letras.
 								</div>								
@@ -58,6 +63,7 @@
 						</div>
 					</form>	
 				</div>
+
 				<div class="card radius-10">
 					<div class="card-header">
 						<div class="d-flex align-items-center">
