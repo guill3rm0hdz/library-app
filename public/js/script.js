@@ -1,33 +1,6 @@
- // Manejar el evento de clic en el botón
- /*const buttons = document.querySelectorAll('.botonSidebar');
-
-
-    let selectedCategory = $(".selected-option");
-    elementValido = validarCategory(selectedCategory);
-
-    console.log(elementValido)
-       selectedCategory.each(function() {
-        var optionText = $(this).find("span").text();
-        console.log(optionText);
-      });
-
-
-
- buttons.forEach(button => {
-    let section = button.id;
-        $("#"+section).click(function() {
-            $.ajax({
-                url: base_url+'home/cargar_seccion/'+section,
-                type: "GET",
-                success: function(data) {
-                    $("#content-dashboard").html(data);
-                }
-            });
-        });
-    });*/
 $(document).ready(function() {
-  // Manejar Funciones de Validacion
-  $('.input, .email, .select, .date').on('input',function() {
+  // Manejar Funciones en eventos de Validacion
+  $('.input').on('input keydown',function() {
     let element = $(this);
     validarInput(element);
   });
@@ -35,7 +8,7 @@ $(document).ready(function() {
   $("#formulario").on('submit',function(event) {
     event.preventDefault();
     let form = document.getElementById("formulario");
-    let element = $('.input, .email, .select, .date');
+    let element = $('.input');
     let validar = validarFormulario(element);
     if (validar === false) {
       return false;
@@ -44,30 +17,87 @@ $(document).ready(function() {
     }
   });
 
+});
 
+//Extrae los registros de usuarios para cargar en el autocompletar
+$(document).ready(function() {
+  $.ajax({
+    url: base_url+'home/get_data_ajax/users',
+    type: 'GET',
+    dataType: 'json',
+    success: function(response) {
+      $(".autocompleteUser").autocomplete({
+        source: response.map(function(item) { 
+          return {
+              label: item.name, // muestra el nombre del usuario en la lista de opciones
+              value: item.name // al seleccionar una opción, establece el ID del usuario en el campo de entrada
+          };
+      }),
+      minLength: 1,
+      select: function(event, ui) { }
+      });
+    },
+    error: function(xhr, status, error) {
+        console.error(xhr.responseText);
+    }
+  });  
+});  
+
+
+//Extrae los registros de categorias para cargar en el autocompletar
+$(document).ready(function() {
   var selectedOptions = [];
-  // Inicializar el widget de autocompletar
-  $("#autocomplete-category").autocomplete({
-    source: ["Opción 1", "Opción 2", "Opción 3", "Opción 4", "Opción 5"],
-    select: function(event, ui) {
-      var optionValue = ui.item.value;
-      // Agregar la opción seleccionada al contenedor
-      selectedOptions.push(optionValue);
-      updateSelectedOptions($(this));
-      // Limpiar el campo de entrada de autocompletar después de seleccionar una opción
-      $(this).val("");
-      return false;
+  $.ajax({
+    url: base_url+'home/get_data_ajax/categories',
+    type: 'GET',
+    dataType: 'json',
+    success: function(response) {
+      $("#autocomplete-category").autocomplete({
+        source: response.map(function(item) { 
+          return {
+              label: item.name, // muestra el nombre del usuario en la lista de opciones
+              value: item.name // al seleccionar una opción, establece el ID del usuario en el campo de entrada
+          };
+      }),
+      minLength: 1,
+        select: function(event, ui) {
+          var optionValue = ui.item.value;
+          // Agregar la opción seleccionada al contenedor
+          selectedOptions.push(optionValue);
+          updateSelectedOptions();
+          // Limpiar el campo de entrada de autocompletar después de seleccionar una opción
+          $(this).val("");
+          return false;
+        }
+      });
+    },
+    error: function(xhr, status, error) {
+        console.error(xhr.responseText);
+    }
+  });  
+
+
+  // Actualizar el contenedor de opciones seleccionadas
+  function updateSelectedOptions() {
+    $("#selected-options").empty();
+    for (var i = 0; i < selectedOptions.length; i++) {
+      var optionValue = selectedOptions[i];
+      var optionElement = $("<div></div>").addClass("selected-option");
+      var optionLabel = $("<input type='text' class='btn btn-secondary' name='categoryBook[]' value='"+optionValue+"' readonly/>");
+      var deleteButton = $("<span><i class='bi bi-x-square'></i></span>").addClass("delete-button");
+      deleteButton.click((function(option) {
+        return function() {
+          // Eliminar la opción del arreglo de opciones seleccionadas
+          selectedOptions.splice(selectedOptions.indexOf(option), 1);
+          updateSelectedOptions();
+          }
+        })(optionValue));
+        optionElement.append(optionLabel);
+        optionElement.append(deleteButton);
+        $("#selected-options").append(optionElement);
+      }
     }
   });
-
-
-  $('#autocompleteUser').autocomplete({
-    source: ["Opción 1", "Opción 2", "Opción 3", "Opción 4", "Opción 5"],
-    select: function(event, ui) {
-      // Evitar el comportamiento por defecto del evento select
-      return false;
-    }
-  });    
 
   //Funciones para validar los input del formulario
   function validarInput(element){
@@ -75,7 +105,7 @@ $(document).ready(function() {
     let elementType = element.attr('type');
     let letters = '';
     
-    if(elementType === 'text'){letters = /^[A-Za-z][A-Za-z\s]*$/;}
+    if(elementType === 'text'){letters = /^[A-Za-záéíóúüñÁÉÍÓÚÜÑ\s.,:;-][A-Za-záéíóúüñÁÉÍÓÚÜÑ\s.,:;-\s]*$/;}
     else if(elementType === 'email'){letters = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;}
     else if(elementType === 'date'){letters =  /^\d{4}-\d{2}-\d{2}$/;}
 
@@ -87,8 +117,25 @@ $(document).ready(function() {
     return true;
   }
 
+  //Funcion para validar el formulario completo
+  function validarFormulario(element){
+    let elementValido = true;
+    let validar = true;
+    element.each(function() {
+      validar = validarInput($(this));
+      if(validar === false || !$(this).val() === true){
+        elementValido = false;
+      }
+    });
 
-  //Funcion para validar la existencia de categirias en el libro
+    //if(elementValido === true){
+      if($("#autocomplete-category").length){elementValido = validarCategory();}
+    //}
+    return elementValido;
+  }
+
+  
+  //Funcion para validar la existencia de categirias que se asignan al libro
   function validarCategory(){
     let element = $("#selected-options");
     elementValido = true;
@@ -100,46 +147,3 @@ $(document).ready(function() {
     }
     return elementValido;
   };
-
-  
-  //Funcion para validar el formulario completo
-  function validarFormulario(element){
-    let elementValido = true;
-    let validar = true;
-    element.each(function() {
-      validar = validarInput($(this));
-      if(validar === false || !$(this).val()){
-        elementValido = false;
-      }
-    });
-
-    if($("#autocomplete-category").length){elementValido = validarCategory();}
-    return elementValido;
-  }
-  
-
-    // Actualizar el contenedor de opciones seleccionadas
-    function updateSelectedOptions(element) {
-      let elementOption = $("#selected-options");
-      elementOption.empty();
-      for (var i = 0; i < selectedOptions.length; i++) {
-        var optionValue = selectedOptions[i];
-        var optionElement = $("<div class='btn btn-dark' style='margin:10px;'></div>").addClass("selected-option");
-        var optionLabel = $("<span></span>").text(optionValue);
-        var deleteButton = $("<i class='bi bi-x-square' style='margin:0 0 0 10px;'></i>").addClass("delete-button");
-        deleteButton.click((function(option) {
-          return function() {
-            // Eliminar la opción del arreglo de opciones seleccionadas
-            selectedOptions.splice(selectedOptions.indexOf(option), 1);
-            updateSelectedOptions();
-          }
-        })(optionValue));
-        optionElement.append(optionLabel);
-        optionElement.append(deleteButton);
-        elementOption.append(optionElement);
-      }
-      validarCategory();
-    }
-
-  });
-  

@@ -1,7 +1,8 @@
-	<!--start page wrapper -->
+	<!-- Inicio componente -->
 	<div class="page-wrapper">
 			<div class="page-content">
 				<div class="container ">
+					<!-- Contenido Formulario de registrode datos -->
 					<div class="row">
 						<div class="col-md-5 mx-auto d-flex justify-content-center">
 							<div class="w-100">					
@@ -21,7 +22,7 @@
 									<div class="row mb-3">
 										<label for="inputEmail" class="col-sm-4 col-form-label">E-mail</label>
 										<div class="col-sm-8">
-											<input type="email" class="form-control email" name="emailUser"/>
+											<input type="email" class="form-control input" name="emailUser"/>
 											<div class="invalid-feedback">
 												The email is not a valid one.
 											</div>								
@@ -38,6 +39,7 @@
 					</div>
 				</div>
 				<hr/>
+				<!-- Contenido Tabla con Formulario para actualizar datos -->
 				<div class="table-responsive">
 					<div class="bg-white p-3 mb-3">
 						<div class="table">
@@ -54,22 +56,23 @@
 									</div>
 								</div>
 							</div>
+							<!-- Cuerpo de la tabla -->
 							<div class="tbody">
 								<?php foreach($table as $element): ?>
-									<form method="post" action="<?php echo base_url('home/update_user/'.$element->id); ?>" >
+									<?= form_open('home/update_user/'.$element->id, ['class' => 'formulario-table'], ['method' => 'post'] ) ?>
 										<div class="row">
 											<div class="col-sm-4">
 												<input type="text" class="form-control input" name="nameUser" value="<?= $element->name;?>"/>
 											</div>
 											<div class="col-sm-4">
-												<input type="email" class="form-control email" name="emailUser" value="<?= $element->email;?>"/>	
+												<input type="email" class="form-control input" name="emailUser" value="<?= $element->email;?>"/>	
 											</div>
 											<div class="col-sm-4">
-												<button class="btn btn-warning">Update</button>
+												<?= form_submit('submit', 'Update', array('class' => 'btn btn-primary')) ?>
 												<a class="btn btn-danger" href="<?php echo base_url('home/del_user/'.$element->id); ?>">Delete</a>        
 											</div>
 										</div>
-									</form>
+									<?= form_close() ?>
 								<?php endforeach; ?>
 							</div>
 						</div>

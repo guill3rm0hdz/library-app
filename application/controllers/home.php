@@ -36,12 +36,19 @@ class Home extends CI_Controller {
 		return $result;
 	}
 
+	// Condsulta universal para traer registros de tabla e implementarlo en ajax
+	public function get_data_ajax($section){
+		$result = $this->Home_model->get_data($section);
+		echo json_encode($result);
+	}
+
+
 
 	//**************************/
 	// CRUD a la bases de datos de Usuarios "Contrlador"
 	
 	public function add_user(){
-		// Obtener los datos del formulario utilizando el método input() del helper form
+	// Agrega los datos del formulario
 		$data = array(
 			'name' => $this->input->post('nameUser'),
 			'email' => $this->input->post('emailUser')
@@ -64,13 +71,12 @@ class Home extends CI_Controller {
 			'name' => $this->input->post('nameUser'),
 			'email' => $this->input->post('emailUser')
 		);
-
 		$this->Home_model->update_data($id, $data, 'users');
 		redirect('home/section_load/users');
 	}
 
-	// FIN CRUD a la bases de datos de Usuarios "Contrlador"
-	//**************************/
+
+
 
 
 	//**************************/
@@ -94,20 +100,74 @@ class Home extends CI_Controller {
 
 	}
 	
-		// Actualiza el registro dinamicamente
-		public function update_categories($id){
-			$data = array(
-				'name' => $this->input->post('nameCategories'),
-				'description' => $this->input->post('descriptionCategories')
-			);
-	
-			$this->Home_model->update_data($id, $data, 'categories');
-			redirect('home/section_load/categories');
-		}
+	// Actualiza el registro dinamicamente
+	public function update_categories($id){
+		$data = array(
+			'name' => $this->input->post('nameCategories'),
+			'description' => $this->input->post('descriptionCategories')
+		);
+		$this->Home_model->update_data($id, $data, 'categories');
+		redirect('home/section_load/categories');
+	}
 	
 
-	// FIN CRUD a la bases de datos de Categories "Contrlador"
+
+
+
+
 	//**************************/
+	// CRUD a la bases de datos de Libros "Contrlador"
+	
+	public function add_books(){
+
+		// Obtener los datos del formulario utilizando el método input() del helper form
+		$date = $this->revert_date($this->input->post('fechaBook'));
+
+		$data = array(
+			'name' => $this->input->post('nameBook'),
+			'author' => $this->input->post('authorBook'),
+			'published_date' => $date,
+			'category' => json_encode($this->input->post('categoryBook')),
+			'user' => $this->input->post('userBook')
+		);
+		// Insertar los datos en la base de datos utilizando el modelo
+		$this->Home_model->add_data($data, 'books');
+		redirect('home/section_load/books/');
+	}
+
+
+	// Elimina el registro dinamicamente
+	public function del_book($id){
+		$this->Home_model->del_data($id, 'books');
+		redirect('home/section_load/books');
+
+	}
+
+		// Actualiza el registro dinamicamente
+		public function update_book($id){
+			$date = $this->revert_date($this->input->post('fechaBook'));
+			var_dump($date);
+			$data = array(
+				'name' => $this->input->post('nameBook'),
+				'author' => $this->input->post('authorBook'),
+				'published_date' => $date,
+				'category' => json_encode($this->input->post('categoryBook')),
+				'user' => $this->input->post('userBook')
+			);
+			var_dump($data);
+			$this->Home_model->update_data($id, $data, 'books');
+			redirect('home/section_load/books');
+		}
+
+
+		//**************************/
+		// Funcion que revierte el orden de la fecha para que pueda ser regstrada en la BD
+		public function revert_date($date_input){
+			$date_array = array_reverse(explode('/', $date_input));
+			$date_format = implode('/', $date_array);
+			return $date_format;
+		}
+
 
 
 }

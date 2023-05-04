@@ -1,7 +1,8 @@
-	<!--start page wrapper -->
+	<!-- Inicio componente -->
 	<div class="page-wrapper">
 			<div class="page-content">
 				<div class="container ">
+					<!-- Contenido Formulario de registrode datos -->
 					<div class="row">
 						<div class="col-md-8 mx-auto d-flex justify-content-center">
 							<div class="w-100">					
@@ -21,9 +22,9 @@
 									<div class="row mb-3">
 										<label for="inputDescription" class="col-sm-4 col-form-label">Description</label>
 										<div class="col-sm-8">
-											<input type="text" class="form-control email" name="descriptionCategories"/>
+											<input type="text" class="form-control input" name="descriptionCategories"/>
 											<div class="invalid-feedback">
-												The email is not a valid one.
+												This field is required
 											</div>								
 										</div>
 									</div>
@@ -38,26 +39,28 @@
 					</div>
 				</div>
 				<hr/>
+				<!-- Contenido Tabla con Formulario para actualizar datos -->
 				<div class="table-responsive">
 					<div class="bg-white p-3 mb-3">
 						<div class="table">
 							<div class="thead">
 								<div class="row">
 									<div class="col-sm-4">
-										<strong>Name</strong>
+										<strong>Name Categorie</strong>
 									</div>
 									<div class="col-sm-4">
-										<strong>Email</strong>
+										<strong>Description</strong>
 									</div>
 									<div class="col-sm-4">
 										<strong>Actions</strong>
 									</div>
 								</div>
 							</div>
+							<!-- Cuerpo de la tabla -->
 							<div class="tbody">
 								<?php foreach($table as $element): ?>
-									<form method="post" action="<?php echo base_url('home/update_categories/'.$element->id); ?>" >
-										<div class="row">
+									<?= form_open('home/update_categories/'.$element->id, ['class' => 'formulario-table'], ['method' => 'post'] ) ?>
+									<div class="row">					
 											<div class="col-sm-4">
 												<input type="text" class="form-control input" name="nameCategories" value="<?= $element->name;?>"/>
 											</div>
@@ -65,11 +68,12 @@
 												<input type="text" class="form-control input" name="descriptionCategories" value="<?= $element->description;?>"/>	
 											</div>
 											<div class="col-sm-4">
-												<button class="btn btn-warning">Update</button>
+
+												<?= form_submit('submit', 'Update', array('class' => 'btn btn-primary')) ?>
 												<a class="btn btn-danger" href="<?php echo base_url('home/del_categories/'.$element->id); ?>">Delete</a>        
 											</div>
 										</div>
-									</form>
+									<?= form_close() ?>
 								<?php endforeach; ?>
 							</div>
 						</div>
@@ -78,4 +82,4 @@
 
 			</div>
 		</div>
-		<!--end page wrapper -->
+		<!--Fin componente -->

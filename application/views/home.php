@@ -2,6 +2,7 @@
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
+			<!-- Icono del header -->
 			<a class="navbar-brand" href="<?= base_url();?>">
 				<img src="https://juststickers.in/wp-content/uploads/2017/10/baby-deadpool.png" width="80"/>
 				<span>Where is the library?</span>
@@ -10,27 +11,23 @@
 			<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav ms-auto">
-				<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="<?= base_url();?>">Home</a>
+			<!-- Enlaces a rutas -->
+			<ul class="navbar-nav ms-auto">	
+				<h3>Menu |</h3>
+				<li class="nav-item"><?php echo anchor('home/section_load/books', 'Books', array('class' => 'nav-link active')); ?>
 				</li>
+				<li class="nav-item"><?php echo anchor('home/section_load/categories', 'categories', array('class' => 'nav-link')); ?>
+				</li>
+				<li class="nav-item"><?php echo anchor('home/section_load/users', 'Users', array('class' => 'nav-link')); ?>
+				</li>
+			
 			</ul>
 			</div>
 		</div>
 		</nav>
 	</header>	
+	<!-- Relleno para el Main -->
 	<div class="contenedor">
-			<sidebar class="sidebar">
-				<h2>Menu</h2>
-				<ul class="menu">
-					<li><?php echo anchor('home/section_load/books', 'Books', array('class' => '')); ?>
-					</li>
-					<li><?php echo anchor('home/section_load/categories', 'categories', array('class' => '')); ?>
-					</li>
-					<li><?php echo anchor('home/section_load/users', 'Users', array('class' => '')); ?>
-					</li>
-				</ul>
-			</sidebar>
 			<main class="contenido">
 				<?php if(!isset($section)){?>
 					<img src="https://media.tenor.com/T4664VfiM0cAAAAC/asistente-robot.gif" alt="Gif animado de una flecha que señala a la izquierda">
